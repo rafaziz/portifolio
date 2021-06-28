@@ -1,4 +1,5 @@
 ![Image](/assets/images/logo.png)
+<img src="/assets/images/logo.png" width="200">
 
 ## Welcome to this Portifolio
 
