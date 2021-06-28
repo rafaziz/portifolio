@@ -1,4 +1,4 @@
-![Image](/assets/images/logo.png)
+![Image](/assets/images/logo.png =500x)
 
 ## Welcome to this Portifolio
 
