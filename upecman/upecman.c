@@ -545,7 +545,7 @@ void printlab(t_game g, int scry, int scrx)
     g.lab[10][10] = ' '; /* clear inky position */
     g.lab[11][10] = ' '; /* clear clyde position */
 
-    clear(); /* clear the screen */
+  /*  clear();  clear the screen */
 
     attron(COLOR_PAIR(5));
     for(y = 0; y < LABL; y++)
