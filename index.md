@@ -1,4 +1,4 @@
-<img src="/assets/images/logo.png" width="500">
+<img src="assets/images/logo.png" width="500">
 
 ## Welcome to this Portifolio
 
