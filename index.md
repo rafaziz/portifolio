@@ -23,11 +23,11 @@ Syntax highlighted code block
 
 **Bold** and _Italic_ and `Code` text
 
-[Link](url) and ![Image](portifolio/LOGO.png)
+[Link](url) and ![Image](assets/images/LOGO.png)
 ```
 
 For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-![Image](portifolio/LOGO.png)
+![Image](assets/images/LOGO.png)
 
 ### Jekyll Themes
 
