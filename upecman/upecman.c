@@ -65,7 +65,7 @@
  * Instrucoes para compilar:
  *      $make
  * ou
- *      $gcc upecman.c -o upecman.x -Wall -lncurses -g -Og
+ *      $gcc upecman.c -o upecman.x -lm -Wall -lncurses -g -Og
  *          -Wextra -ansi -pedantic-errors -DDEBUG=1
  */
 
