@@ -1,4 +1,10 @@
-## Welcome to GitHub Pages
+![Image](/assets/images/logo.png)
+
+## Welcome to this Portifolio
+
+Here you will find many different open-source projects related either to my academic development or personal investment. All projects here were created or improved by me.
+
+Feel free to contact, ask or discuss any of the content present here on rafaelazizlvr@gmail.com
 
 You can use the [editor on GitHub](https://github.com/rafaziz/portifolio/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
 
@@ -27,7 +33,7 @@ Syntax highlighted code block
 ```
 
 For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-![Image](/assets/images/logo.png)
+
 
 ### Jekyll Themes
 
