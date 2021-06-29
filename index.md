@@ -6,14 +6,9 @@ Here you will find many different open-source projects related either to my acad
 
 Feel free to contact, ask or discuss any of the content present here on rafaelazizlvr@gmail.com
 
-You can use the [editor on GitHub](https://github.com/rafaziz/portifolio/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+### Summary
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
+[<img src="assets/images/logo.png" width="500">](https://habitica.com/shops/market)
 ```markdown
 Syntax highlighted code block
 
