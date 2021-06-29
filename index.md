@@ -8,7 +8,7 @@ Feel free to contact, ask or discuss any of the content present here on rafaelaz
 
 ### Summary
 
-[<img src="assets/images/upecman-image.png" width="500">](https://habitica.com/shops/market)
+[<img src="assets/images/upecman-image.PNG" width="500">](https://habitica.com/shops/market)
 
 1. C language
 - Upecman
