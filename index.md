@@ -35,6 +35,12 @@ You can check the detailed project here or download its files on github.
 <h3 id="hybridS">Hybrid System</h3>
 <h3 id="arc">Arcadia</h3>
 
+Arcadia is a software designed to simulate [Google Stadia](https://stadia.google.com) gaming stream service and create a user registration system using a local database.
+
+This project is made on Python 3 and uses many python libraries in order to create a functional system. This was firstly requested as a academic project to get familiarized with python features and later improved to get a cleaner and optimized result. Despite it being a simple software it fully accomplishes its main goal to create, edit and maintain a userbase and all attributes attained to each of then such as: Subscrition status, email, name, age etc.
+
+You can find the detailed project here or download its files on github.
+
 ```markdown
 Syntax highlighted code block
 
