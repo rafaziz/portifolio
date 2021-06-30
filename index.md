@@ -11,12 +11,16 @@ Feel free to contact, ask or discuss any of the content present here on rafaelaz
 [<img src="assets/images/upecman-image.png" width="300x">](https://habitica.com/shops/market)
 
 1. C language
-- Upecman
+- <a href="#upecman">Upecman</a>
 - Sudoku Solver
 - Number Reading
 
 2. Python
 - Hybrid System
+
+
+<h2 id="CL">C language</h2>
+<h3 id="upecman">Upecman</h3>
 
 ```markdown
 Syntax highlighted code block
