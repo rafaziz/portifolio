@@ -8,18 +8,23 @@ Feel free to contact, ask or discuss any of the content present here on rafaelaz
 
 ### Summary
 
-1. <a href="#CL">C language</a>
+1. <a href="#CLan">C language</a>
 - <a href="#upecman">Upecman</a>
-- Sudoku Solver
-- Number Reading
+- <a href="#sudoku">Sudoku Solver</a>
+- <a href="#numberR">Number Reading</a>
 
-2. Python
-- Hybrid System
+2. <a href="#py">Python</a>
+- <a href="#hybridS">Hybrid System</a>
 
 
-<h2 id="CL">C language</h2>
+<h2 id="CLan">C language</h2>
 <h3 id="upecman">Upecman</h3>
 [<img src="assets/images/upecman-image.png" width="300x">](https://habitica.com/shops/market)
+<h3 id="sudoku">Sudoku Solver</h3>
+<h3 id="numberR">Number Reading</h3>
+
+<h2 id="py">Python</h2>
+<h3 id="hybridS">Hybrid System</h3>
 
 ```markdown
 Syntax highlighted code block
