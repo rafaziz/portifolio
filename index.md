@@ -8,9 +8,7 @@ Feel free to contact, ask or discuss any of the content present here on rafaelaz
 
 ### Summary
 
-[<img src="assets/images/upecman-image.png" width="300x">](https://habitica.com/shops/market)
-
-1. C language
+1. <a href="#CL">C language</a>
 - <a href="#upecman">Upecman</a>
 - Sudoku Solver
 - Number Reading
@@ -20,7 +18,7 @@ Feel free to contact, ask or discuss any of the content present here on rafaelaz
 
 
 <h2 id="CL">C language</h2>
-[<h3 id="upecman">Upecman</h3>](https://habitica.com)
+<h3 id="upecman">Upecman</h3>
 [<img src="assets/images/upecman-image.png" width="300x">](https://habitica.com/shops/market)
 
 ```markdown
