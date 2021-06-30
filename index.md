@@ -15,6 +15,7 @@ Feel free to contact, ask or discuss any of the content present here on rafaelaz
 
 2. <a href="#py">Python</a>
 - <a href="#hybridS">Hybrid System</a>
+- <a href="#arc">Arcadia</a>
 
 
 <h2 id="CLan">C language</h2>
@@ -32,6 +33,7 @@ You can check the detailed project here or download its files on github.
 
 <h2 id="py">Python</h2>
 <h3 id="hybridS">Hybrid System</h3>
+<h3 id="arc">Arcadia</h3>
 
 ```markdown
 Syntax highlighted code block
