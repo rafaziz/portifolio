@@ -23,7 +23,7 @@ Feel free to contact, ask or discuss any of the content present here on rafaelaz
 
 The upecman is a project developed during my first academic year. It is made using the the [ncurses](https://invisible-island.net/ncurses/announce.html) GNU library and many C language resources.
 
-The goal here was to replicate the classic Pacman game in a terminal enviroment including all the caracteristics of the original game that could be applied to this objective.
+The goal here was to replicate the classic Pacman game in a terminal enviroment including all the caracteristics of the original game such as ghost's individual movement patterns, pacman and ghost's speed affected by level, cherry spawn, lives, points and all that could be applied to accomplish the goal.
 
 You can check the detailed project here or download its files on github.
 
