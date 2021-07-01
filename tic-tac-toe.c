@@ -27,6 +27,13 @@
  * 
  */
 
+/*
+ * Instructions to compile:
+ * 
+ *      $gcc tic-tac-toe.c -o tic-tac-toe.x -lm -Wall -lncurses -Wextra
+ * 
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ncurses.h>
