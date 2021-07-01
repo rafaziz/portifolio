@@ -239,6 +239,7 @@ int main(int argc, char *argv[])
                         if(kin == 'y')
                         {
                             g=upecman_init();
+                            pel = 0;
                             g.pacman.life--;
                             printlab(g,scry,scrx);
                             break;
