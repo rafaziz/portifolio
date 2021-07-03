@@ -10,6 +10,7 @@ Feel free to contact, ask or discuss any of the content present here on rafaelaz
 
 1. <a href="#CLan">C language</a>
 - <a href="#upecman">Upecman</a>
+- <a href="#ttt">Tic-Tac-Toe</a>
 - <a href="#sudoku">Sudoku Solver</a>
 - <a href="#numberR">Number Reading</a>
 
@@ -28,7 +29,15 @@ The goal here was to replicate the classic Pacman game in a terminal enviroment 
 
 You can check the detailed project here or download its files on github.
 
+<h3 id="ttt">Tic-Tac-Toe</h3>
 <h3 id="sudoku">Sudoku Solver</h3>
+
+The sudoku-solver is a program developed to automatically solve a sudoku challenge given as input file.
+
+The program uses various known methods of sudoku resolution using C language to represent them and combine these to provide precise results as the dificult of the input challenges increases. Each method is responsible for the calculation of some specific situation of numbers and through them, excludes possible candidates of determined positions. The combination of these methods results in a faster, lighter and flawless output of the result.
+
+You can view all methods and codes related to this program here or download the whole project on github.
+
 <h3 id="numberR">Number Reading</h3>
 
 <h2 id="py">Python</h2>
