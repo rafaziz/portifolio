@@ -6,7 +6,7 @@ These projects were made using different programming languages and all of them w
 
 Feel free to contact, ask or discuss any of the content present here on rafaelazizlvr@gmail.com
 
-### Summary
+<h2 id="summ">Summary</h2>
 
 1. <a href="#CLan">C language</a>
 - <a href="#upecman">Upecman</a>
@@ -29,6 +29,8 @@ The goal here was to replicate the classic Pacman game in a terminal enviroment 
 
 You can check the detailed project here or download its files on github.
 
+<a href="#summ">Back to Summary</a>
+
 <h3 id="ttt">Tic-Tac-Toe</h3>
 
 This project, as the name suggests, is the classic tic-tac-toe game made using the [ncurses](https://invisible-island.net/ncurses/announce.html) GNU library, C language resources and the AI min-max algorythm.
@@ -36,6 +38,8 @@ This project, as the name suggests, is the classic tic-tac-toe game made using t
 Upon start, the game offers 2 game mode options: Singleplayer and Local Multiplayer. If the player chooses multiplayer the game screen is presented and then, both players starts to play, but if the player chooses singplayer, a difficult screen is presented and after choosing the difficult, the player starts to play against the AI.
 
 You can see the AI algorythm and more details about the project here or download the full codes on github.
+
+<a href="#summ">Back to Summary</a>
 
 <h3 id="sudoku">Sudoku Solver</h3>
 
@@ -45,6 +49,8 @@ The program uses various known methods of sudoku resolution using C language to 
 
 You can view all methods and codes related to this program here or download the whole project on github.
 
+<a href="#summ">Back to Summary</a>
+
 <h3 id="numberR">Number Reading</h3>
 
 The Number Reading is a Machine Learning (ML) project using a Artificial Neural Network (ANN) built in C language to indentify handwritten numbers with the lowest error rate that I could accomplish.
@@ -53,8 +59,12 @@ The ANN uses a combinantion of 10k different images compressed in a label in ord
 
 You can view the detailed information about the ANN and the whole project here, or download the whole code on github.
 
+<a href="#summ">Back to Summary</a>
+
 <h2 id="py">Python</h2>
 <h3 id="hybridS">Hybrid System</h3>
+<a href="#summ">Back to Summary</a>
+
 <h3 id="arc">Arcadia</h3>
 
 Arcadia is a software designed to simulate [Google Stadia](https://stadia.google.com) gaming stream service and create a user registration system using a local database.
@@ -62,6 +72,8 @@ Arcadia is a software designed to simulate [Google Stadia](https://stadia.google
 This project is made on Python 3 and uses many python libraries in order to create a functional system. This was firstly requested as a academic project to get familiarized with python features and later improved to get a cleaner and optimized result. Despite it being a simple software it fully accomplishes its main goal to create, edit and maintain a userbase and all attributes attained to each of then such as: Subscrition status, email, name, age etc.
 
 You can find the detailed project here or download its files on github.
+
+<a href="#summ">Back to Summary</a>
 
 ```markdown
 Syntax highlighted code block
