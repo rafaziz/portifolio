@@ -30,15 +30,28 @@ The goal here was to replicate the classic Pacman game in a terminal enviroment 
 You can check the detailed project here or download its files on github.
 
 <h3 id="ttt">Tic-Tac-Toe</h3>
+
+This project, as the name suggests, is the classic tic-tac-toe game made using the [ncurses](https://invisible-island.net/ncurses/announce.html) GNU library, C language resources and the AI min-max algorythm.
+
+Upon start, the game offers 2 game mode options: Singleplayer and Local Multiplayer. If the player chooses multiplayer the game screen is presented and then, both players starts to play, but if the player chooses singplayer, a difficult screen is presented and after choosing the difficult, the player starts to play against the AI.
+
+You can see the AI algorythm and more details about the project here or download the full codes on github.
+
 <h3 id="sudoku">Sudoku Solver</h3>
 
 The sudoku-solver is a program developed to automatically solve a sudoku challenge given as input file.
 
-The program uses various known methods of sudoku resolution using C language to represent them and combine these to provide precise results as the dificult of the input challenges increases. Each method is responsible for the calculation of some specific situation of numbers and through them, excludes possible candidates of determined positions. The combination of these methods results in a faster, lighter and flawless output of the result.
+The program uses various known methods of sudoku resolution using C language to represent them and combine these methods to provide precise results as the dificult of the input challenges increases. Each method is responsible for the calculation of some specific situation of numbers and through them, excludes possible candidates of determined positions. The combination of these methods results in a faster, lighter and flawless output response.
 
 You can view all methods and codes related to this program here or download the whole project on github.
 
 <h3 id="numberR">Number Reading</h3>
+
+The Number Reading is a Machine Learning (ML) project using a Artificial Neural Network (ANN) built in C language to indentify handwritten numbers with the lowest error rate that I could accomplish.
+
+The ANN uses a combinantion of 10k different images compressed in a label in order to train and test its weights using 2 different activation functions, one for the hidden layer and the other for the remaining layers and later responding with error % of the ANN.
+
+You can view the detailed information about the ANN and the whole project here, or download the whole code on github.
 
 <h2 id="py">Python</h2>
 <h3 id="hybridS">Hybrid System</h3>
