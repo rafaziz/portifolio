@@ -1,4 +1,4 @@
-<link rel="shortcut icon" type="image/x-icon" href="logo_n0V_1.ico">
+<link rel="shortcut icon" type="image/x-icon" href="assets/favicon/logo_n0V_1.ico">
 
 ## Welcome to this Portifolio
 
