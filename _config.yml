@@ -3,3 +3,5 @@ description: I'm a Mechatronic Engineer student currently under a double degree 
 logo: assets/images/logo.png
 title: Rafaziz's Portifolio
 show_downloads: true
+github:
+  is_project_page: false
