@@ -1,5 +1,3 @@
-<link rel="shortcut icon" type="image/x-icon" href="assets/favicon/logo_n0V_1.ico?">
-
 ## Welcome to this Portifolio
 
 This is a portifolio of diverse open-source code projects maintaned by me with the intention of make my work known.
