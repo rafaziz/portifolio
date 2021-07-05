@@ -27,7 +27,7 @@ The upecman is a project developed during my first academic year. It is made usi
 
 The goal here was to replicate the classic Pacman game in a terminal enviroment including all the caracteristics of the original game such as ghost's individual movement patterns, pacman and ghost's speed affected by level, cherry spawn, lives, points and all that could be applied to accomplish the goal.
 
-You can check the detailed project [here](rafaziz.github.io/portifolio/upecman) or download its files on github.
+You can check the detailed project [here](upecman.md) or download its files on github.
 
 <a href="#summ">Back to Summary</a>
 
