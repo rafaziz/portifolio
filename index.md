@@ -1,8 +1,10 @@
 ## Welcome to this Portifolio
 
+This is a portifolio of diverse open-source code projects maintaned by me with the intention of make my work known.
+
 Here you will find many different open-source projects related either to my academic development or personal investment. 
 
-These projects were made using different programming languages and all of them were created or improved by me.
+These projects were made using different programming languages and all of the content here were created nor improved by me and sometimes in cooperation with a group of friends.
 
 Feel free to contact, ask or discuss any of the content present here on rafaelazizlvr@gmail.com
 
