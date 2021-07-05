@@ -63,6 +63,13 @@ You can view the detailed information about the ANN and the whole project here, 
 
 <h2 id="py">Python</h2>
 <h3 id="hybridS">Hybrid System</h3>
+
+The hybrid system is a project made using many Artificial Intelligence (AI) or Machine Learning (ML) optimization methods and the [sklearn](scikit-learn.org/) Python Library.
+
+The objective of the system is to correctly make a temporal series analysis and predict the behaviour of a specific stock on the market combining at least 3 different methods of AI/ML applied to an input data. I chose the database of the past 5 years of the stock behavior, normalized and used as train material to the system in order for it to test and predict the future values of this stock in the market.
+
+You can check the results and the details about this system here or download its code on github.
+
 <a href="#summ">Back to Summary</a>
 
 <h3 id="arc">Arcadia</h3>
@@ -75,20 +82,3 @@ You can find the detailed project here or download its files on github.
 
 <a href="#summ">Back to Summary</a>
 
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](/assets/images/logo.png)
-```
