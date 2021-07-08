@@ -14,7 +14,7 @@ Pre-Move is a characteristic related to the Pacman's movement, when you are deve
 
 The Pre-Move stores the last pressed key and not only as soon as possible the pacman will move to that direction it will also overwrite this key if a new one is pressed before the pacman reaching an avaible position to change direction (ie.).
 
-´´´markdown
+'''markdown
 
 if(kin == KEY_LEFT)
     next = left;
@@ -25,4 +25,4 @@ if(kin == KEY_DOWN)
 if(kin == KEY_UP)
     next = up;
 
-´´´
+'''
