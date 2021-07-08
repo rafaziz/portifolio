@@ -7,7 +7,8 @@ In order to have the most similar experience to the original game I've tried to 
 1. <a href="#overview">Overview</a> 
 2. <a href="#pac">Pacman</a>
 - <a href="#preM">Pre-Move</a>
-X. <a href="#doc">Documentation</a>
+3. <a href="ghost">Ghosts</a>
+4. <a href="#doc">Documentation</a>
 
 
 <h2 id="overview">Overview</h2>
