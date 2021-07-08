@@ -33,3 +33,22 @@ With that in mind all of the pacman movement is based on this behaviour, it move
 
 ```markdown
 
+if(next == up)
+    if(g.lab[g.pacman.pos.y - 1][g.pacman.pos.x] != '#')
+        g.pacman.dir = up;
+
+if(g.pacman.dir == up)
+{
+    if(g.lab[g.pacman.pos.y - 1][g.pacman.pos.x] != '#')
+    {
+        xinc = 0;
+        yinc = -1;
+    }
+    else
+    {
+        xinc = 0;
+        yinc = 0;
+    }
+}
+```
+you can observe that the double check of the position is necessary because it will otherwise change its direction and then stop moving.
