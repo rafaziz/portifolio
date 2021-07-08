@@ -4,9 +4,15 @@
 In order to have the most similar experience to the original game I've tried to replicate all the features and characteristics that I could such as pre-move, ghosts' movement, speed and modes, behaviour of the cherry, supper pellets etc. All of these characteristics and the methods that I've used to replicate them are explained down bellow, if you have any doubts feel free to ask me.
 
 <h2 id="summ">Summary</h2>
-1. <a href="#pac">Pacman</a>
+1. <a href="#overview">Overview</a> 
+2. <a href="#pac">Pacman</a>
 - <a href="#preM">Pre-Move</a>
+X. <a href="#doc">Documentation</a>
 
+
+<h2 id="overview">Overview</h2>
+
+The upecman is set in a 20x22 characters maze under an infinite loop always reading the key input through a `getch()` function and visually upgraded using the ncurses library.
 
 <h2 id="pac">Pacman</h2>
 <h3 id="preM">Pre-Move</h3>
@@ -51,4 +57,4 @@ if(g.pacman.dir == up)
     }
 }
 ```
-you can observe that the double check of the position is necessary because it will otherwise change its direction and then stop moving.
+you can observe that the double check of the position is necessary because it will otherwise change the direction and then make the pacman stop moving.
