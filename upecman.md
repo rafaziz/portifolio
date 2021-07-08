@@ -16,3 +16,13 @@ The Pre-Move stores the last pressed key and not only as soon as possible the pa
 
 ´´´markdown
 
+if(kin == KEY_LEFT)
+    next = left;
+if(kin == KEY_RIGHT)
+    next = right;
+if(kin == KEY_DOWN)
+    next = down;
+if(kin == KEY_UP)
+    next = up;
+
+´´´
