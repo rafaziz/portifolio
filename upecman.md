@@ -1,5 +1,5 @@
 ## Upecman
-<img src="assets/images/upecman-image.png">
+<img src="assets/images/upecman/upecman-image.png">
 
 In order to have the most similar experience to the original game I've tried to replicate all the features and characteristics that I could such as pre-move, ghosts' movement, speed and modes, behaviour of the cherry, supper pellets etc. All of these characteristics and the methods that I've used to replicate them are explained down bellow, if you have any doubts feel free to ask me.
 
