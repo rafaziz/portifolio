@@ -15,6 +15,8 @@ In order to have the most similar experience to the original game I've tried to 
 
 The upecman is set in a 20x22 characters maze under an infinite loop always reading the key input through a `getch()` function and visually upgraded using the ncurses library.
 
+<img src="assets/images/upecman/labmodel.PNG">
+
 <h2 id="pac">Pacman</h2>
 <h3 id="preM">Pre-Move</h3>
 
