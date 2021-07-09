@@ -60,4 +60,4 @@ if(g.pacman.dir == up)
     }
 }
 ```
-you can observe that the double check of the position is necessary because it will otherwise change the direction and then make the pacman stop moving.
+you can observe that the double check of the position is necessary because it will otherwise change the direction and then make the pacman stop moving if a unavaible direction is chosen.
