@@ -37,7 +37,7 @@ You can check the detailed project [here](upecman.md) or download its files on g
 
 This project, as the name suggests, is the classic tic-tac-toe game made using the [ncurses](https://invisible-island.net/ncurses/announce.html) GNU library, C language resources and the AI min-max algorythm.
 
-Upon start, the game offers 2 game mode options: Singleplayer and Local Multiplayer. If the player chooses multiplayer the game screen is presented and then, both players starts to play, but if the player chooses singplayer, a difficult screen is presented and after choosing the difficult, the player starts to play against the AI.
+Upon start, the game offers 2 game mode options: Singleplayer and Local Multiplayer. If the player chooses multiplayer the game screen is presented and both players starts to play, but if the player chooses singleplayer, a difficult screen is shown and then, the player starts to play against the AI.
 
 You can see the AI algorythm and more details about the project here or download the full codes on github.
 
