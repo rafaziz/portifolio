@@ -8,6 +8,7 @@ In order to have the most similar experience to the original game I've tried to 
 2. <a href="#pac">Pacman</a>
 - <a href="#preM">Pre-Move</a>
 3. <a href="ghost">Ghosts</a>
+- <a href="#clyde">Clyde</a>
 4. <a href="#doc">Documentation</a>
 
 
