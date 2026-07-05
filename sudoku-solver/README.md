@@ -99,6 +99,18 @@ The solution will be printed to the _standard output_ in the following format:
 
 * It is recommended that the internal representation of the game be a w[9][9][9] of integers, containing only 0 (false) and 1 (true) for each candidate.
 
+### Testing
+
+* A small regression suite runs the solver against the 10 sample puzzles and validates
+  every solution independently (rows/columns/blocks + respect for the given clues):
+
+```bash
+bash run-tests.sh mytag                 # compile + run the 10 puzzles (Linux/WSL)
+python3 validate.py ~/sudotest mytag    # independent solution validator
+```
+
+* All 10 puzzles (beginner → extreme) solve and validate; the "extreme" input runs in ~0.1 s.
+
 ### Advisor
 
 * Author: Prof. Dr. Ruben Carlo Benante

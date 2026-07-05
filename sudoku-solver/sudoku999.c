@@ -137,11 +137,17 @@ int main(void)
 {
     int z; /* flag indicativa de deducao com sucesso */
     int sudoku[9][9][9]={{{0}}}; /* todas as 729 possibilidades */
+    int backup[9][9][9]; /* copia do estado inicial para a rede de seguranca */
+    int l, c, d;
 
     IFDEBUG("Starting optarg loop...");
 
     sudoku999_init(sudoku); /* initialization function: set all candidates to true */
 
+    for(l=0;l<9;l++) /* preserva o estado inicial lido da entrada */
+        for(c=0;c<9;c++)
+            for(d=0;d<9;d++)
+                backup[l][c][d]=sudoku[l][c][d];
 
     do
     {
@@ -154,16 +160,31 @@ int main(void)
         z+=d6(sudoku); /* claiming candidate */
         z+=d7(sudoku); /* x-wing */
         z+=d8(sudoku); /*xy-wing */
-        z+=d9(sudoku); /* x-wing : swordfish */
-        z+=d11(sudoku); /* skyscraper */
+        /* d9 (swordfish) e d11 (skyscraper) desativadas: as implementacoes
+           atuais tem falso-positivos estruturais que eliminam candidatos
+           corretos (ver CODE_REVIEW.md); o backtracking d10 cobre os casos.
+        z+=d9(sudoku);
+        z+=d11(sudoku); */
     }while(z);
 
-    /* backtracking */ 
-    if(!check(sudoku)) 
-        z=d10(sudoku);  
+    /* backtracking */
+    if(!check(sudoku))
+        z=d10(sudoku);
+
+    /* rede de seguranca: se as deducoes corromperam o grid (incompleto ou
+       invalido), recomeca do estado inicial com backtracking puro */
+    if(!check(sudoku) || !valido(sudoku))
+    {
+        for(l=0;l<9;l++)
+            for(c=0;c<9;c++)
+                for(d=0;d<9;d++)
+                    sudoku[l][c][d]=backup[l][c][d];
+        tenta8(sudoku);
+    }
 
     printsudoku(sudoku);
-    return check(sudoku);
+    printraw(sudoku); /* echo solution in input format to stderr (see README) */
+    return !(check(sudoku) && valido(sudoku)); /* exit 0 on success, 1 on failure */
 }
 
 /* Write your functions here... */
@@ -197,13 +218,28 @@ void printsudoku(int w[9][9][9])
     int i=0,j=0;   
     printf("\n     +-----------+-----------+-----------+\n");
     
-    for(i=0; i<9;i++)           
-    {                  
-        printf("     | %d   %d   %d |  %d   %d   %d |  %d   %d   %d|\n",unico(w[i][j]), unico(w[i][j+1]), unico(w[i][j+2]), unico(w[i][j+3]), unico(w[i][j+4]), unico(w[i][j+5]), unico(w[i][j+6]), unico(w[i][j+7]), unico(w[i][j+8]));      
-        if(i==2 || i == 5 || i==8 )          
-            printf("     +-----------+------------+-----------+\n");      
-    }      
-    return;         
+    for(i=0; i<9;i++)
+    {
+        printf("     | %d   %d   %d |  %d   %d   %d |  %d   %d   %d|\n",unico(w[i][j]), unico(w[i][j+1]), unico(w[i][j+2]), unico(w[i][j+3]), unico(w[i][j+4]), unico(w[i][j+5]), unico(w[i][j+6]), unico(w[i][j+7]), unico(w[i][j+8]));
+        if(i==2 || i == 5 || i==8 )
+            printf("     +-----------+-----------+-----------+\n");
+    }
+    return;
+}
+
+/* ---------------------------------------------------------------------- */
+/* imprime a solucao em formato de entrada (9 linhas de 9 digitos) no stderr */
+void printraw(int w[9][9][9])
+{
+    int i, j;
+
+    for(i=0; i<9; i++)
+    {
+        for(j=0; j<9; j++)
+            fprintf(stderr, "%d", unico(w[i][j]));
+        fprintf(stderr, "\n");
+    }
+    return;
 }
 
 /* ---------------------------------------------------------------------- */
@@ -320,12 +356,19 @@ void entrada(int w[9][9][9])
 
     for(l=0; l<9 ; l++)
     {
+        for(k=0; k<12; k++)
+            strInput[k] = '\0';
         setbuf(stdin, NULL);
-        fgets(strInput, 12, stdin);
+        if(fgets(strInput, 12, stdin) == NULL)
+            strInput[0] = '\0';
 
         for(c=0; c<9; c++)
         {
-            val= strInput[c] - 48;
+            /* trata caracteres invalidos ou linha curta como celula vazia */
+            if(strInput[c] < '0' || strInput[c] > '9')
+                val = 0;
+            else
+                val= strInput[c] - 48;
             if(val != 0)
                 w[l][c][val - 1]= 1;
             else
@@ -542,24 +585,24 @@ int skyscraper(int w[9][9][9], int d, int l1, int l2, int c1, int c2, char *hd)
     {
         if(cbloco(i,c1,&ls,&cs)==cbloco(l2,c2,&ls,&cs) && i!=l1)
         {
-            if(w[i][c1][d]==w[l1][c1][d])
+            if(w[i][c1][d]==1 && w[l1][c1][d]==1) /* remove apenas candidatos realmente presentes */
             {
                 w[i][c1][d]=0;
-                printf("\n%s",hd); /* print para tirar warning  */
+                printf("\n%s remove candidato %d de %d%c",hd,d+1,i+1,c1+65);
                 z=1;
             }
         }
         if(cbloco(l1,i,&ls,&cs)==cbloco(l2,c2,&ls,&cs) && i!=c1)
         {
-            if(w[l1][i][d]==w[l1][c1][d])
+            if(w[l1][i][d]==1 && w[l1][c1][d]==1) /* remove apenas candidatos realmente presentes */
             {
                 w[l1][i][d]=0;
-                printf("\n%s",hd); /* print para tirar warning  */
+                printf("\n%s remove candidato %d de %d%c",hd,d+1,l1+1,i+65);
                 z=1;
             }
         }
     }
-                      
+
     return z;
 }
 
@@ -598,6 +641,49 @@ int check(int w[9][9][9])
                 continue;
             return 0;
         }
+    return 1;
+}
+
+/* ---------------------------------------------------------------------- */
+/* verifica se as celulas ja resolvidas respeitam as regras do sudoku
+ * (sem digito repetido em linha, coluna ou bloco) */
+int valido(int w[9][9][9])
+{
+    int i, j, v, ls, cs, bi, bj;
+    int seen[10];
+
+    for(i=0;i<9;i++) /* linhas */
+    {
+        for(v=0;v<10;v++) seen[v]=0;
+        for(j=0;j<9;j++)
+        {
+            v = unico(w[i][j]);
+            if(v && seen[v]++)
+                return 0;
+        }
+    }
+    for(j=0;j<9;j++) /* colunas */
+    {
+        for(v=0;v<10;v++) seen[v]=0;
+        for(i=0;i<9;i++)
+        {
+            v = unico(w[i][j]);
+            if(v && seen[v]++)
+                return 0;
+        }
+    }
+    for(bi=0;bi<9;bi++) /* blocos */
+    {
+        bloco(bi,&ls,&cs);
+        for(v=0;v<10;v++) seen[v]=0;
+        for(i=ls;i<ls+3;i++)
+            for(bj=cs;bj<cs+3;bj++)
+            {
+                v = unico(w[i][bj]);
+                if(v && seen[v]++)
+                    return 0;
+            }
+    }
     return 1;
 }
 
@@ -822,8 +908,22 @@ int d8(int w[9][9][9])
 int d10(int w[9][9][9])
 {
     int z=0;
+    int l, c, d;
+
     z=tenta8(w); /* backtracking recursive */
-   return z;
+    if(!z)
+    {
+        /* rede de seguranca: se alguma deducao eliminou um candidato correto,
+           restaura todas as possibilidades das celulas nao resolvidas e tenta
+           novamente por busca pura (pode() garante a validade da solucao) */
+        for(l=0;l<9;l++)
+            for(c=0;c<9;c++)
+                if(!unico(w[l][c]))
+                    for(d=0;d<9;d++)
+                        w[l][c][d]=1;
+        z=tenta8(w);
+    }
+    return z;
 }
 
 /* --------------------------------------------------------------------- */
@@ -880,7 +980,7 @@ int d1l(int w[9][9][9])
             }
             if(fd==1)
             {
-                z = remover(unico+1, w, l, c, 1, hd);
+                z += remover(unico+1, w, l, c, 1, hd);
             }
 
         }
@@ -920,7 +1020,7 @@ int d1c(int w[9][9][9])
             }
             if(fd==1)
             {
-                z = remover(unico+1, w, l, c, 2, hd);
+                z += remover(unico+1, w, l, c, 2, hd);
             }
         }
 
@@ -963,7 +1063,7 @@ int d1b(int w[9][9][9])
                }
                if(fd==1)
                {
-                    z = removebloco(w, unico+1, l, c, ls, cs, hd);
+                    z += removebloco(w, unico+1, l, c, ls, cs, hd);
                }
             }
          }
@@ -1079,9 +1179,9 @@ int d2b(int w[9][9][9])
                 {
                     for(x=0;x<9;x++)
                         candy[x]=w[l][c][x];
-                    for(i=0; i<ls+3; i++)
+                    for(i=ls; i<ls+3; i++)
                     {
-                        for(j=0; j<ls+3; j++)
+                        for(j=cs; j<cs+3; j++)
                         {
                             if(i==l && j==c)
                                 continue;
@@ -1138,9 +1238,9 @@ int d3l(int w[9][9][9])
               }            
               if(fno)
                   continue;
-              z = removepair(ded,w,l,c1,c2,1,hd);
+              z += removepair(ded,w,l,c1,c2,1,hd);
               if(cbloco(l,c1,&ls,&cs) == cbloco(l,c2,&ls,&cs))
-                  z = removepair(ded,w,l,c1,c2,3,hd);
+                  z += removepair(ded,w,l,c1,c2,3,hd);
           }
   return z;
 }
@@ -1151,37 +1251,39 @@ int d3b (int w[9][9][9])
     int d,ded[2],l1,l2,c1,c2,b,ls,cs,cont,z=0,fno;
     char *hd= "d3b: naked pair(block)";
     
+    int k1, k2; /* indices lineares 0-8 das celulas dentro do bloco */
+
     for(b=0;b<9;b++)
     {
         bloco(b,&ls,&cs);
-        for(l1=0;l1<ls+3;l1++)
-            for(c1=0; c1<cs+3; c1++)
-                for(l2=l1+1; l2<ls+3;l2++)
-                    for(c2=c1+1;c2<ls+3;c2++)
+        for(k1=0;k1<8;k1++)
+            for(k2=k1+1;k2<9;k2++)
+            {
+                l1 = ls + k1/3;
+                c1 = cs + k1%3;
+                l2 = ls + k2/3;
+                c2 = cs + k2%3;
+                if(totalcandy(w[l1][c1])!=2||totalcandy(w[l2][c2])!=2)
+                    continue;
+                fno=0;
+                cont = 0;
+                for(d=0;d<9;d++)
+                {
+                    if(w[l1][c1][d]!=w[l2][c2][d])
                     {
-                        if(l1==l2 && c1==c2)
-                            continue;
-                        if(totalcandy(w[l1][c1])!=2||totalcandy(w[l2][c2])!=2)
-                            continue;
-                        fno=0;
-                        cont = 0;
-                        for(d=0;d<9;d++)
-                        {
-                            if(w[l1][c1][d]!=w[l2][c2][d])
-                            {
-                                fno=1;
-                                break;
-                            }
-                            else if(w[l1][c1][d]==1)
-                            {
-                                ded[cont]=d;
-                                cont++;
-                            }
-                        }
-                        if(fno)
-                            continue;
-                        z=removepairb(ded,w,l1,c1,l2,c2,hd);
+                        fno=1;
+                        break;
                     }
+                    else if(w[l1][c1][d]==1)
+                    {
+                        ded[cont]=d;
+                        cont++;
+                    }
+                }
+                if(fno)
+                    continue;
+                z+=removepairb(ded,w,l1,c1,l2,c2,hd);
+            }
     }
     return z;
 }
@@ -1218,9 +1320,9 @@ int d3c (int w[9][9][9])
 
                 if(fno)
                     continue;
-                z=removepair(ded,w,l1,c,l2,2,hd);
+                z+=removepair(ded,w,l1,c,l2,2,hd);
                 if(cbloco(l1,c,&ls,&cs)==cbloco(l2,c,&ls,&cs))
-                    z= removepair(ded,w,l1,c,l2,4,hd);
+                    z+= removepair(ded,w,l1,c,l2,4,hd);
             }
     return z;
 }
@@ -1314,7 +1416,7 @@ int removepairb(int recebe[2], int w[9][9][9], int l1, int c1, int l2, int c2, c
             if((i==l1 && j==c1) || (i==l2 && j==c2))
                 continue;
             for(d=0;d<9;d++)
-                for(d2=0;d<2;d++)
+                for(d2=0;d2<2;d2++)
                     if(d==recebe[d2] && w[i][j][d]!=0)
                     {
                         w[i][j][d]=0;
@@ -1344,16 +1446,18 @@ int d4l(int w[9][9][9])
                     continue;
                 if(totalcandy(w[l][c1])==2 && totalcandy(w[l][c2])==2)
                     continue;
-                for(d1=1;d1<9;d1++)
-                {           
-                   if(w[l][c1][d1]==w[l][c2][d1])
-                        for(d2=d1+1;d2<10;d2++)
-                            if(w[l][c1][d2]==w[l][c2][d2])
+                for(d1=0;d1<8;d1++)
+                {
+                   if(w[l][c1][d1]==1 && w[l][c2][d1]==1)
+                        for(d2=d1+1;d2<9;d2++)
+                            if(w[l][c1][d2]==1 && w[l][c2][d2]==1)
                             {
-                                for(check=c2+1;check<9;check++)
-                                { 
-                                    fc=0;
-                                    if(w[l][check][d1]==w[l][c2][d1] || w[l][check][d2]==w[l][c2][d2])
+                                fc=0;
+                                for(check=0;check<9;check++)
+                                {
+                                    if(check==c1 || check==c2)
+                                        continue;
+                                    if(w[l][check][d1]==1 || w[l][check][d2]==1)
                                     {
                                         fc=1;
                                         break;
@@ -1361,10 +1465,10 @@ int d4l(int w[9][9][9])
                                 }
                                 if(fc)
                                     continue;
-                                z = z + limparCelula(w,l,c1,d1,d2,hd);
-                                z = z + limparCelula(w,l,c2,d1,d2,hd);
+                                z = z + limparCelula(w,l,c1,d1+1,d2+1,hd);
+                                z = z + limparCelula(w,l,c2,d1+1,d2+1,hd);
                             }
-                
+
                 }
             }
     return z;
@@ -1388,16 +1492,18 @@ int d4c(int w[9][9][9])
                     continue;
                 if(totalcandy(w[l1][c])==2 && totalcandy(w[l2][c])==2)
                     continue;
-                for(d1=1;d1<9;d1++)
-                {                
-                    if(w[l1][c][d1]==w[l2][c][d1])
-                        for(d2=d1+1;d2<10;d2++)
-                            if(w[l1][c][d2]==w[l2][c][d2])
+                for(d1=0;d1<8;d1++)
+                {
+                    if(w[l1][c][d1]==1 && w[l2][c][d1]==1)
+                        for(d2=d1+1;d2<9;d2++)
+                            if(w[l1][c][d2]==1 && w[l2][c][d2]==1)
                             {
-                                for(check=l2+1;check<9;check++)
-                                { 
-                                    fc=0;
-                                    if(w[check][c][d1]==w[l2][c][d1] || w[check][c][d2]==w[l2][c][d2])
+                                fc=0;
+                                for(check=0;check<9;check++)
+                                {
+                                    if(check==l1 || check==l2)
+                                        continue;
+                                    if(w[check][c][d1]==1 || w[check][c][d2]==1)
                                     {
                                         fc=1;
                                         break;
@@ -1405,8 +1511,8 @@ int d4c(int w[9][9][9])
                                 }
                                 if(fc)
                                     continue;
-                                z = z + limparCelula(w,l1,c,d1,d2,hd);
-                                z = z + limparCelula(w,l2,c,d1,d2,hd);
+                                z = z + limparCelula(w,l1,c,d1+1,d2+1,hd);
+                                z = z + limparCelula(w,l2,c,d1+1,d2+1,hd);
                             }
                 }
             }
@@ -1436,31 +1542,30 @@ int d4b(int w[9][9][9])
                         if(totalcandy(w[l1][c1])==2&&totalcandy(w[l2][c2])==2)
                             continue;
 
-                        for(d1=1;d1<9;d1++)  /* laço para decidir os valores a serem removidos */
+                        for(d1=0;d1<8;d1++)  /* laço para decidir os valores a serem removidos */
                         {
-                            if(w[l1][c1][d1]==w[l2][c2][d1])
-                                for(d2=d1+1;d2<10;d2++)
-                                    if(w[l1][c1][d2]==w[l2][c2][d2])
+                            if(w[l1][c1][d1]==1 && w[l2][c2][d1]==1)
+                                for(d2=d1+1;d2<9;d2++)
+                                    if(w[l1][c1][d2]==1 && w[l2][c2][d2]==1)
                                     {
-                                        for(check1=0;check1<9;check1++)
+                                        fc=0;
+                                        for(check1=ls;check1<ls+3 && !fc;check1++)
                                         {
-                                            for(check2=0;check2<9;check2++)
+                                            for(check2=cs;check2<cs+3;check2++)
                                             {
                                                 if((check1 == l1 && check2==c1) || (check1==l2 && check2==c2))
                                                     continue;
-                                                fc=0;
-                                                if(w[check1][check2][d1]==w[l1][c1][d1] || w[check1][check2][d2]==w[l1][c1][d2])
+                                                if(w[check1][check2][d1]==1 || w[check1][check2][d2]==1)
                                                 {
                                                     fc=1;
                                                     break;
                                                 }
                                             }
-                                            if(fc)
-                                                break;
-                                            
-                                            z = z + limparCelula(w,l1,c1,d1,d2,hd); 
-                                            z = z + limparCelula(w,l2,c2,d1,d2,hd);
                                         }
+                                        if(fc)
+                                            continue;
+                                        z = z + limparCelula(w,l1,c1,d1+1,d2+1,hd);
+                                        z = z + limparCelula(w,l2,c2,d1+1,d2+1,hd);
                                     }
                         }
                     }
@@ -1498,17 +1603,20 @@ int d5l(int w[9][9][9])
                 if(fd)
                 {
                     fl=0;   /*flag da linha*/
-                    for(i=l+1; i<ls+3; i++)
+                    for(i=ls; i<ls+3; i++) /* verifica TODAS as outras linhas do bloco */
+                    {
+                        if(i==l)
+                            continue;
                         for(c=cs;c<cs+3;c++)
                             if(w[i][c][d]==1)
                             {
                                 fl=1;
                                 break;
                             }
+                    }
                     if(fl==0)
-                    {    
-                        z=externalremove(d, w, l, cs,b, 1, hd);
-                        
+                    {
+                        z+=externalremove(d, w, l, cs,b, 1, hd);
                     }
                 }
             }
@@ -1546,16 +1654,20 @@ int d5c(int w[9][9][9])
                 if(fd)
                 {
                     fc=0;
-                    for(i=c+1;i<cs+3;i++)
+                    for(i=cs;i<cs+3;i++) /* verifica TODAS as outras colunas do bloco */
+                    {
+                        if(i==c)
+                            continue;
                         for(l=ls;l<ls+3;l++)
                             if(w[l][i][d]==1)
                             {
                                 fc=1;
                                 break;
                             }
+                    }
                     if(fc==0)
                     {
-                        z=externalremove(d,w,c,ls,b,2,hd);
+                        z+=externalremove(d,w,c,ls,b,2,hd);
                     }
                 }
             }
@@ -1637,7 +1749,7 @@ int d6l(int w[9][9][9])
                   if(f)
                       continue;                          /* como foi encontrada fora do bloco, pode continuar */
                      
-                  z=clap(w,d-1,b,l,c,1,hd);
+                  z+=clap(w,d-1,b,l,c,1,hd);
 
          
              }   
@@ -1681,7 +1793,7 @@ int d6c(int w[9][9][9])
                     if(f)
                       continue;               /* como foi encontrada fora do bloco, pode continuar */  
                        
-                    z=clap(w,d-1,b,l,c,2,hd);     
+                    z+=clap(w,d-1,b,l,c,2,hd);     
             
                  }   
 
@@ -1706,10 +1818,10 @@ int clap(int w[9][9][9],int d,int nbloco, int lentrada, int centrada, int tipo,c
             if(tipo==2 && c==centrada)
                 continue;
             if(w[l][c][d] != 0)
-            {     w[l][c][d+1]=0;
-                 printf("\n%s dado que a celula faz parte do bloco, remove o candidato %d",hd,d);
+            {
+                 w[l][c][d]=0;
+                 printf("\n%s dado que a celula faz parte do bloco, remove o candidato %d",hd,d+1);
                  z=1;
-        
             }
          }
     return z;
@@ -1731,10 +1843,12 @@ int d7l(int w[9][9][9])
                 {
                     if(w[l1][c1][d]!=w[l1][c2][d] ||w[l1][c1][d]==0)
                         continue;
-                    for(check=c2+1;check<9;check++)
+                    fcounter = 0;
+                    for(check=0;check<9;check++) /* o candidato nao pode existir em NENHUMA outra coluna da linha */
                     {
-                        fcounter = 0;
-                        if(w[l1][c2][d]==w[l1][check][d])
+                        if(check==c1 || check==c2)
+                            continue;
+                        if(w[l1][check][d]==1)
                         {
                             fcounter = 1;
                             break;
@@ -1784,10 +1898,12 @@ int d7c(int w[9][9][9])
                 {
                     if(w[l1][c1][d]!=w[l2][c1][d] || w[l1][c1][d]==0)
                         continue;
-                    for(check=l2+1;check<9;check++)
+                    fcounter = 0;
+                    for(check=0;check<9;check++) /* o candidato nao pode existir em NENHUMA outra linha da coluna */
                     {
-                        fcounter = 0;
-                        if(w[l2][c1][d]==w[check][c1][d])
+                        if(check==l1 || check==l2)
+                            continue;
+                        if(w[check][c1][d]==1)
                         {
                             fcounter = 1;
                             break;
@@ -1862,10 +1978,10 @@ int d8l(int w[9][9][9])
 /* backtracking */
 int tenta8(int w[9][9][9])
 {
-    /*int z=0;  flag que indica se ocorreu deducao */
     char *hd="tenta8: backtracking";
     int linha,coluna, /* linha e coluna  */
         n,i;/* variaveis para for  */
+    int save[9]; /* candidatos originais da celula, para restaurar em caso de falha */
 
     /* criterio de parada  */
     if( celula(w,&linha,&coluna) == 0)
@@ -1873,22 +1989,26 @@ int tenta8(int w[9][9][9])
         return 1;
     }
 
+    for ( n = 0; n < 9; n++) /* preserva os candidatos deduzidos ate aqui */
+        save[n] = w[linha][coluna][n];
+
     for(i=0;i<9;i++)
     {
-        if(pode(w,linha,coluna,i)) /* se numero na celula tiver ok, coloca esse número nela, e limpa o resto na mesma celula */
+        /* tenta apenas candidatos que as deducoes nao eliminaram */
+        if(save[i] && pode(w,linha,coluna,i))
         {
             for ( n = 0; n < 9; n++) /* fazendo com que a celula venha a ter somente um numero */
             {
                 if (n == i)
                 {
-                    w[linha][coluna][i] = 1; /* colocando numero unico na celula */     
+                    w[linha][coluna][i] = 1; /* colocando numero unico na celula */
                 }
                 else
                 {
                     w[linha][coluna][n] = 0; /* limpando candidatos na  mesma celula */
                 }
             }
-            
+
             /* backtracking */
             if(tenta8(w))
             {
@@ -1896,17 +2016,17 @@ int tenta8(int w[9][9][9])
                 return 1; /* retorna 1, se sudoku estiver resolvido */
             }
 
-            else /* se solução falha, esvazia celula */
+            else /* se solucao falha, restaura os candidatos originais da celula */
             {
                 for ( n = 0; n < 9; n++)
                 {
-                    w[linha][coluna][n] = 1;
+                    w[linha][coluna][n] = save[n];
                 }
             }
         }
     }
 
-    return 1;
+    return 0; /* nenhum candidato desta celula leva a solucao: beco sem saida */
 }
 
 /* ---------------------------------------------------------------------- */
@@ -1958,10 +2078,9 @@ int d9l(int w[9][9][9])
                                if(w[l3][c3][d]!=w[l3][c1][d]&&w[l3][c3][d]!=w[l3][c2][d] && w[l3][c3][d]==1)
                                    continue;
 
-                               removeswordfish(d,w,l1,c1,l2,l3,1,hd);
-                               removeswordfish(d,w,l1,c2,l2,l3,1,hd);
-                               removeswordfish(d,w,l1,c3,l2,l3,1,hd);
-                               z=1;                            
+                               z += removeswordfish(d,w,l1,c1,l2,l3,1,hd);
+                               z += removeswordfish(d,w,l1,c2,l2,l3,1,hd);
+                               z += removeswordfish(d,w,l1,c3,l2,l3,1,hd);
 
                                                                                              
                             }
@@ -2019,10 +2138,9 @@ int d9c(int w[9][9][9])
                                 if(w[l3][c3][d]!=w[l1][c3][d]&&w[l3][c3][d]!=w[l2][c3][d] && w[l3][c3][d]==1)
                                     continue;
 
-                                removeswordfish(d,w,l1,c1,c2,c3,2,hd);
-                                removeswordfish(d,w,l1,c2,c2,c3,2,hd);
-                                removeswordfish(d,w,l1,c3,c2,c3,2,hd);
-                                z=1;
+                                z += removeswordfish(d,w,l1,c1,c2,c3,2,hd);
+                                z += removeswordfish(d,w,l1,c2,c2,c3,2,hd);
+                                z += removeswordfish(d,w,l1,c3,c2,c3,2,hd);
             
 
                                           
@@ -2191,26 +2309,25 @@ int pode(int w[9][9][9], int linha, int coluna, int pos)
     }
     
     /* verificando submatriz */
-    
+
     for(l=linha_start;l<linha_start+3;l++)
     {
-        fd=0;
         for(c=coluna_start;c<coluna_start+3;c++)
         {
-            if(l != linha && c != coluna)/* pula linha e coluna analisados*/
+            if(l == linha && c == coluna)/* pula a propria celula analisada */
+                continue;
+            fd=0; /* contador reiniciado por celula, e nao por linha do bloco */
+            for ( d = 0; d < 9; d++)
             {
-                for ( d = 0; d < 9; d++)
+                if (w[l][c][d] == 1)
                 {
-                    if (w[l][c][d] == 1)
-                    {
-                        fd++;
-                        posicao=d;
-                    }
+                    fd++;
+                    posicao = d;
                 }
-                if (fd ==1 && pos == posicao) /* celula ocupada, celula com valores iguais */
-                {
-                    return 0;
-                }
+            }
+            if (fd ==1 && pos == posicao) /* celula ocupada, celula com valores iguais */
+            {
+                return 0;
             }
         }
     }
@@ -2235,9 +2352,9 @@ int d11l(int w[9][9][9])
                 {
                     if(w[l1][c1][d]!=w[l1][c2][d] || w[l1][c1][d]==0)
                         continue;
+                    fcounter2 = 0;
                     for(check=c2+1;check<9;check++)
                     {
-                        fcounter2 = 0;
                         if(w[l1][c2][d]==w[l1][check][d])
                         {
                             fcounter2 = 1;
@@ -2251,9 +2368,9 @@ int d11l(int w[9][9][9])
                         {
                             if(w[l2][c1][d]!=w[l2][c3][d] || w[l2][c3][d]==0 || c3==c2)
                                 continue;
+                            fcounter3 = 0;
                             for(check=c3+1;check<9;check++)
                             {
-                                fcounter3 = 0;
                                 if(w[l2][c3][d]==w[l2][check][d])
                                 {
                                     fcounter3 = 1;
@@ -2262,7 +2379,7 @@ int d11l(int w[9][9][9])
                             }
                             if(fcounter3)
                                 break;
-                            z = skyscraper(w,d,l1,l2,c2,c3,hd);
+                            z += skyscraper(w,d,l1,l2,c2,c3,hd);
                         }
 
 
@@ -2288,9 +2405,9 @@ int d11c(int w[9][9][9])
                 {
                     if(w[l1][c1][d]!=w[l2][c1][d] || w[l1][c1][d]==0)
                          continue;
+                    fcounter2 = 0;
                     for(check=l2+1;check<9;check++)
                     {
-                        fcounter2 = 0;
                         if(w[l2][c1][d]==w[check][c1][d])
                         {
                             fcounter2 = 1;
@@ -2304,9 +2421,9 @@ int d11c(int w[9][9][9])
                         {
                             if(w[l1][c2][d]!=w[l3][c2][d] || w[l3][c2][d]==0 || l3==l2)
                                 continue;
+                            fcounter3 = 0;
                             for(check=l3+1;check<9;check++)
                             {
-                                fcounter3 = 0;
                                 if(w[l3][c2][d]==w[check][c2][d])
                                 {
                                     fcounter3 = 1;
@@ -2315,9 +2432,7 @@ int d11c(int w[9][9][9])
                             }
                             if(fcounter3)
                                 break;
-                            z = skyscraper(w,d,l2,l3,c1,c2,hd);
-                            z=1;
-
+                            z += skyscraper(w,d,l2,l3,c1,c2,hd);
                         }
                 }
             }

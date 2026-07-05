@@ -132,7 +132,9 @@ void copyr(void); /**< Prints copyright information and exit */
 void sudoku999_init(int w[9][9][9]);/**< Initializes some operations before start */
 
 void printsudoku(int w[9][9][9]);
+void printraw(int w[9][9][9]); /**< Prints solution in input format (9x9 digits) to stderr */
 void entrada(int w[9][9][9]);
+int valido(int w[9][9][9]); /**< Checks solved cells against sudoku rules (no repeats) */
 
 /* limpa a celula dos candidatos */
 int limparcelula(int w[9][9][9], int l, int c, int d1, int d2, char *hd);

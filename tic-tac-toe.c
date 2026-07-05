@@ -38,6 +38,7 @@
 #include <stdlib.h>
 #include <ncurses.h>
 #include <string.h>
+#include <unistd.h> /* usleep */
 
 #define FIR 9
 void imprime(char vet[FIR][FIR+3], int linha, int coluna, int aux, int afir, int pont1, int pont2);
@@ -118,6 +119,7 @@ int main(void)
                 imprime(grid, y, x, contador, verd, p1, p2);
                 verd = 0;
                 contador = 0;
+                ch = '#'; /* restaura o cursor, senao a ultima peca jogada fica desenhada nele */
             }
         }
         if(read == KEY_UP)
